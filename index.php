@@ -1,3 +1,14 @@
+<?php
+/*Load functions file*/
+require __DIR__ . '/inc/functions.inc.php';
+/*Load database file*/
+require __DIR__ . '/inc/db-connect.inc.php';
+
+$stmt = $pdo->prepare('SELECT * FROM entries');
+$stmt->execute();
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC); /*Give as a associative array*/
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,58 +44,21 @@
     <main class="main">
         <div class="container">
             <h1 class="main-heading">Entries</h1>
-            <div class="card">
-                <div class="card__image-container">
-                    <img class="card__image" src="images/pexels-canva-studio-3153199.jpg" alt="" />
+            
+            <?php foreach($results as $result): ?>
+                <div class="card">
+                    <div class="card__image-container">
+                        <img class="card__image" src="images/pexels-canva-studio-3153199.jpg" alt="" />
+                    </div>
+                    <div class="card__desc-container">
+                        <div class="card__desc-time"><?=e($result['date'])?></div>
+                        <h2 class="card__heading"><?=e($result['title'])?></h2>
+                        <p class="card__paragraph">
+                            <?=nl2br(e($result['message']))?>
+                        </p>
+                    </div>
                 </div>
-                <div class="card__desc-container">
-                    <div class="card__desc-time">Week 1</div>
-                    <h2 class="card__heading">PHP is amazing!</h2>
-                    <p class="card__paragraph">
-                        PHP, a widely used server-side scripting language, stands out for its remarkable ease of use, extensive community support, and flexibility. It integrates seamlessly with HTML, making it ideal for web development, and offers a vast array of frameworks that streamline the development process. PHP's compatibility with various databases, its cost-effectiveness (being open-source), and its constant evolution with regular updates contribute to its enduring popularity and cool factor in the web development world.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card__image-container">
-                    <img class="card__image" src="images/pexels-tranmautritam-68761.jpg" alt="" />
-                </div>
-                <div class="card__desc-container">
-                    <div class="card__desc-time">Week 1</div>
-                    <h2 class="card__heading">PHP is amazing!</h2>
-                    <p class="card__paragraph">
-                        PHP, a widely used server-side scripting language, stands out for its remarkable ease of use, extensive community support, and flexibility. It integrates seamlessly with HTML, making it ideal for web development, and offers a vast array of frameworks that streamline the development process. PHP's compatibility with various databases, its cost-effectiveness (being open-source), and its constant evolution with regular updates contribute to its enduring popularity and cool factor in the web development world.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card__image-container">
-                    <img class="card__image" src="images/pexels-lumn-167682.jpg" alt="" />
-                </div>
-                <div class="card__desc-container">
-                    <div class="card__desc-time">Week 1</div>
-                    <h2 class="card__heading">PHP is amazing!</h2>
-                    <p class="card__paragraph">
-                        PHP, a widely used server-side scripting language, stands out for its remarkable ease of use, extensive community support, and flexibility. It integrates seamlessly with HTML, making it ideal for web development, and offers a vast array of frameworks that streamline the development process. PHP's compatibility with various databases, its cost-effectiveness (being open-source), and its constant evolution with regular updates contribute to its enduring popularity and cool factor in the web development world.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card__image-container">
-                    <img class="card__image" src="images/pexels-kaushal-moradiya-2781195.jpg" alt="" />
-                </div>
-                <div class="card__desc-container">
-                    <div class="card__desc-time">Week 1</div>
-                    <h2 class="card__heading">PHP is amazing!</h2>
-                    <p class="card__paragraph">
-                        PHP, a widely used server-side scripting language, stands out for its remarkable ease of use, extensive community support, and flexibility. It integrates seamlessly with HTML, making it ideal for web development, and offers a vast array of frameworks that streamline the development process. PHP's compatibility with various databases, its cost-effectiveness (being open-source), and its constant evolution with regular updates contribute to its enduring popularity and cool factor in the web development world.
-                    </p>
-                </div>
-            </div>
-
+            <?php endforeach; ?>
             <ul class="pagination">
                 <li class="pagination__li">
                     <a class="pagination__link" href="#">⏴</a>
