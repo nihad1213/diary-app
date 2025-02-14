@@ -1,13 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./styles/normalize.css" />
-    <link rel="stylesheet" type="text/css" href="./styles/styles.css" />
-    <title>PHP Diary</title>
-</head>
-<body>
+<?php 
+/*Load functions file*/
+require __DIR__ . '/inc/functions.inc.php';
+/*Load database file*/
+require __DIR__ . '/inc/db-connect.inc.php';
+
+if (!empty($_POST))
+{
+    $title = (string) ($_POST['title'] ?? '');
+    $date = (string) ($_POST['date'] ?? '');
+    $message = (string) ($_POST['message'] ?? '');
+
+    /*Add Data to Database*/
+    $stmt = $pdo->prepare('INSERT INTO entries (title, date, message) VALUES (:title, :date, :message)');
+    $stmt->bindValue(':title', $title);
+    $stmt->bindValue(':date', $date);
+    $stmt->bindValue(':message', $message);
+    $stmt->execute();
+
+    echo "<a href='index.php'>Continue</a>";
+    die;
+}
+?> 
 
 <?php require_once __DIR__ . '/views/header.php' ?>
 
@@ -15,7 +28,7 @@
         <div class="container">
             <h1 class="main-heading">New Entry</h1>
 
-            <form method="POST" action="form.html">
+            <form method="POST" action="form.php">
                 <div class="form-group">
                     <label class="from-group__label" for="title">Title:</label>
                     <input class="from-group__input" type="text" id="title" name="title" />
